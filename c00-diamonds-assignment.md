@@ -1,14 +1,13 @@
 Getting Started: Diamonds
 ================
-(Your name here)
-2020-
+L Little
+2020-07-10
 
   - [Grading Rubric](#grading-rubric)
       - [Individual](#individual)
       - [Team](#team)
       - [Due Date](#due-date)
   - [Data Exploration](#data-exploration)
-  - [Communication](#communication)
 
 *Purpose*: Throughout this course, you’ll complete a large number of
 *exercises* and *challenges*. Exercises are meant to introduce content
@@ -96,6 +95,7 @@ ggplot(data= diamonds) + geom_smooth(mapping = aes(y = price, x = carat))
     ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 
 ![](c00-diamonds-assignment_files/figure-gfm/q1-task-1.png)<!-- -->
+
 **Observations**: This plot shows that up to \~2.5 carats, higher carat
 correlates with higher price. Beyond 2.5 carats the correlation
 generally still applies, but there is a ‘valley’ in between 2.5 and 3.5
@@ -169,45 +169,3 @@ ggplot(data = diamonds, aes(cut)) +
 
 It seems that there are many more high quality diamonds than low quality
 diamonds.
-
-# Communication
-
-<!-- -------------------------------------------------- -->
-
-In this next stage, you will render your data exploration, push it to
-GitHub to share with others, and link your observations within our [Data
-Science
-Wiki](https://olin-data-science.fandom.com/wiki/Olin_Data_Science_Wiki).
-
-**q3** *Knit* your document in order to create a report.
-
-You can do this by clicking the “Knit” button at the top of your
-document in RStudio.
-
-![Terminal](./images/c00-knit.png)
-
-This will create a local `.md` file, and RStudio will automatically open
-a preview window so you can view your knitted document.
-
-**q4** *Push* your knitted document to GitHub.
-
-![Terminal](./images/c00-unstaged.png)
-
-You will need to stage both the `.md` file, as well as the `_files`
-folder. Note that the `_files` folder, when staged, will expand to
-include all the files under that directory.
-
-![Terminal](./images/c00-staged.png)
-
-**q5** *Document* your findings in our
-[Wiki](https://olin-data-science.fandom.com/wiki/Olin_Data_Science_Wiki).
-Work with your learning team to come to consensus on your findings.
-
-The [Datasets](https://olin-data-science.fandom.com/wiki/Datasets) page
-contains lists all the datasets we’ve analyzed together.
-
-**q6** *Prepare* to present your team’s findings\!
-
-**q7** Add a link to your personal data-science repository on the
-[Repositories](https://olin-data-science.fandom.com/wiki/Repositories)
-page. Make sure to file it under your team name\!
