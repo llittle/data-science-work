@@ -181,6 +181,7 @@ the same class.
 - The group where any given member was least likely to survive was 2nd class men
 - For women, higher class led to being more likely to survive. Not so with men.
 - Fewer than 1/3 of the total men survived. 
+
 __q5__ Create a plot showing the group-proportion of passengers who *did* survive, along with aesthetics for `Class`, `Sex`, *and* `Age`. Document your observations below.
 
 *Hint*: Don't forget that you can use `facet_grid` to help consider additional variables!
