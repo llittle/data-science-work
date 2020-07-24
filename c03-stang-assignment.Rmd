@@ -175,14 +175,6 @@ Thicknesses of 0.022, 0.032, 0.064, and 0.081 (inches)
 
 __q3__ Create a visualization to investigate your question from q1 above. Can you find an answer to your question using the dataset? Would you need additional information to answer your question?
 
-```{r q3-task}
-df_stang_long$angle = as.character(df_stang_long$angle)
-df_stang_long %>%
-  ggplot(aes(mu,angle, color = angle)) +
-  geom_boxplot() +
-  coord_flip() + 
-  ggtitle("Distribution of poisson ratio by angle")
-```
 ```{r mu}
 df_stang_long %>%
   ggplot(aes(mu, fill = angle)) +
@@ -191,6 +183,12 @@ df_stang_long %>%
   ggtitle("Distribution of poisson ratio by angle")
 
 ```
+
+**Observations**
+
+It looks like mu may have some angle dependence, but it is hard to tell with the 
+small number of observations we have here.
+
 ```{r E box}
 df_stang_long$angle = as.character(df_stang_long$angle)
 df_stang_long %>%
@@ -208,13 +206,17 @@ df_stang_long %>%
   ggtitle("Distribution of tensile modulus by angle")
 
 ```
+```{r E dist}
+df_stang_long %>%
+  ggplot(aes(E, color = angle)) +
+  geom_density() +
+  ggtitle("Distribution of tensile modulus by angle")
+
+```
+
 **Observations**:
 
-- It seems that while angles of 0 and 90 are fairly similar, angle 45 has 
-somewhat different properties. The distribution of modulus values is 
-nearer to the median value, and the median mu values of 45 degrees is 
-in the top quartile of mu values for 0 and 90 degrees.
-
+- E does not seem to have an angle dependence.
 It is worth noting that the number of data point is small. Each 'quartile' in 
 the box plot is only comprised of 2 data points, so using the box plot visualization
 may be misleading. 

@@ -68,14 +68,14 @@ for more information.
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ────────────────────── tidyverse 1.3.0 ──
+    ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
 
     ## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
     ## ✓ tibble  3.0.1     ✓ dplyr   1.0.0
     ## ✓ tidyr   1.1.0     ✓ stringr 1.4.0
     ## ✓ readr   1.3.1     ✓ forcats 0.5.0
 
-    ## ── Conflicts ───────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -321,17 +321,6 @@ above. Can you find an answer to your question using the dataset? Would
 you need additional information to answer your question?
 
 ``` r
-df_stang_long$angle = as.character(df_stang_long$angle)
-df_stang_long %>%
-  ggplot(aes(mu,angle, color = angle)) +
-  geom_boxplot() +
-  coord_flip() + 
-  ggtitle("Distribution of poisson ratio by angle")
-```
-
-![](c03-stang-assignment_files/figure-gfm/q3-task-1.png)<!-- -->
-
-``` r
 df_stang_long %>%
   ggplot(aes(mu, fill = angle)) +
   geom_histogram(binwidth = 0.01)  +
@@ -340,6 +329,11 @@ df_stang_long %>%
 ```
 
 ![](c03-stang-assignment_files/figure-gfm/mu-1.png)<!-- -->
+
+**Observations**
+
+It looks like mu may have some angle dependence, but it is hard to tell
+with the small number of observations we have here.
 
 ``` r
 df_stang_long$angle = as.character(df_stang_long$angle)
@@ -361,16 +355,22 @@ df_stang_long %>%
 ```
 
 ![](c03-stang-assignment_files/figure-gfm/E%20hist-1.png)<!-- -->
+
+``` r
+df_stang_long %>%
+  ggplot(aes(E, color = angle)) +
+  geom_density() +
+  ggtitle("Distribution of tensile modulus by angle")
+```
+
+![](c03-stang-assignment_files/figure-gfm/E%20dist-1.png)<!-- -->
+
 **Observations**:
 
-  - It seems that while angles of 0 and 90 are fairly similar, angle 45
-    has somewhat different properties. The distribution of modulus
-    values is nearer to the median value, and the median mu values of 45
-    degrees is in the top quartile of mu values for 0 and 90 degrees.
-
-It is worth noting that the number of data point is small. Each
-‘quartile’ in the box plot is only comprised of 2 data points, so
-using the box plot visualization may be misleading.
+  - E does not seem to have an angle dependence. It is worth noting that
+    the number of data point is small. Each ‘quartile’ in the box plot
+    is only comprised of 2 data points, so using the box plot
+    visualization may be misleading.
 
 If we consider the histogram visualization, it seems that there may be a
 difference in the poissons ration of the 45 angle samples, but the
