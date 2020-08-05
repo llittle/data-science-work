@@ -1,0 +1,6 @@
+[Autorun]
+open=AutoRunPro.exe
+
+[AutorunPro]
+; Here are some sample uses for Autorunpro. It keeps processing Them in Run1..RunN order until it doesnt find one.
+Run1=index.html

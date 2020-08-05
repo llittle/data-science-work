@@ -1,0 +1,185 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	background-color: lightyellow;
+}
+
+code {
+	/* html code element */
+	font-size: 8pt;
+	color: #a0a0a0;
+}
+
+div.annotation {
+	/* outline element annotation */
+	color: gray;
+	font-style: italic;
+	font-size: 10pt;
+	margin-top: 5px;
+}
+
+div.content {
+	/* content page default */
+	font-size:10pt;
+        text-align: justify;
+}
+
+div.ddi-attribute {
+}
+
+div.ddi-element {
+}
+
+div.ddi-name {
+}
+
+div.ddi-text {
+}
+
+div.generated, a.div.generated {
+	/* HTML builder statistics */
+	border-top: solid 1px;
+	color: #a0a0a0;
+	font-size:8pt;
+	margin-top: 15px;
+}
+
+div.header,div.footer {
+	/* project or survey level header and footer */
+	font-size:10pt;
+}	
+
+div.text {font-size:16pt;
+	/* outline text element */
+	color:blue;
+        text-align: justify;
+}
+
+h1 {
+	color: navy;
+	font-size:20pt;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+h2 {
+	border-bottom: solid 1px;
+	font-size:14pt;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+h3 {
+	font-size:12pt;
+	font-weight: bold;
+	margin-bottom: 5px;
+	margin-top: 10px;
+}
+
+h4 {
+	font-size:12pt;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+pre.content {
+	font-family: Arial, Helvetica, sans-serif;
+	margin-top:0px;
+	word-wrap:break-word;
+	width: 95%;
+	white-space:-moz-pre-wrap;
+}
+
+
+textarea {
+	font-family:arial;
+	font-size:10pt;width:100%;
+	background-color:#F8F8F8;
+	color:#000000;
+}
+
+.normal {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12pt;
+}
+
+/*==========*/
+/* fileDscr */
+/*==========*/
+table.fileDscr {
+	border: none;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 0;
+	padding: 0;
+	width:100%;
+}	
+
+th.fileDscr {
+	background-color: #C0C0FF;
+	font-size: 10pt;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+td.fileDscr {
+	background-color: #e8e8e8;
+	font-size: 10pt;
+	padding:3px;
+	vertical-align: top;
+}
+
+/*==========*/
+/* otherMat */
+/*==========*/
+table.otherMat {
+	border-style:none;
+	width:100%;
+	padding:3;
+	border-spacing:3;
+	font-size:10pt;
+}
+tr.otherMat {
+	vertical-align:top;
+}
+td.otherMat {
+	background-color:#F8F8F8;
+	font-size:10pt;
+}
+
+/*===========*/
+/* varCatgry */
+/*===========*/
+table.varCatgry {
+	border: none;
+	margin: 5pt;
+	padding: 10pt;
+}	
+
+th.varCatgry {
+	background-color: #C0C0FF;
+	font-size: 10pt;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+td.varCatgry {
+	background-color: #e0e0e0;
+	font-size: 10pt;
+	vertical-align: middle;
+}
+
+/*=========================*/
+/* Open in data reader box */
+/*=========================*/
+.OpenInReader {
+	position:absolute; 
+	z-index:0; 
+	border: 1px solid #000000; 
+	right: 20px; 
+	top: 5px; 
+	background-color: #C0C0F0; 
+	layer-background-color: #C0C0F0; 
+	text-align: center;
+	/* visibility: hidden; */
+}

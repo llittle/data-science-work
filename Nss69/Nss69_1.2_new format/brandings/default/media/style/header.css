@@ -1,0 +1,50 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	margin: 0px;
+	padding: 0px;
+	vertical-align: middle;
+	background-color: #2E609E;
+}
+
+img.logo {
+	margin:5px;
+	border: 0px;
+}
+
+h1 {
+	font-size: 24px;
+	margin: 0px;
+                horizontal-align:center;
+                color: white;
+                font-style: bold;
+              
+}
+
+h2 {
+	font-size:20px;
+	margin: 0px;
+	color:#FFFFFF;
+           
+}
+
+h3 {
+	font-size:18px;
+	margin: 0px;
+	color: yellow;
+	font-style: italic;
+}
+
+h4 {
+	font-size:12px;
+	margin: 0px;
+}
+
+*[dir="ltr"] { direction: ltr; unicode-bidi: embed }
+
+*[dir="rtl"] { direction: rtl; unicode-bidi: embed }
+
+bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override }
+
+bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override }
+

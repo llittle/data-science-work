@@ -1,0 +1,26 @@
+/*=============================*/
+/* Open in Nesstar message box */
+/*=============================*/
+.OpenNesstar {
+	background-color: #DDDDBB; 
+	border: 1px solid;
+	border-color: #CCCCAA;
+	/* display: none; */
+	font-size:8pt;
+	margin-top:10px;
+	margin-bottom:10px;
+	padding: 3px 3px 3px 3px;
+}
+
+/* for backward compatiility with version 1.0.1  */
+.OpenInReader {
+	position:absolute; 
+	z-index:0; 
+	border: 1px solid #000000; 
+	right: 20px; 
+	top: 5px; 
+	background-color: #C0C0F0; 
+	layer-background-color: #C0C0F0; 
+	text-align: center;
+	/* visibility: hidden; */
+}

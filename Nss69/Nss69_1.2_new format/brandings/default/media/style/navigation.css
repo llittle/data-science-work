@@ -1,0 +1,52 @@
+body{
+    background-color: skyblue;
+}
+                    
+.label {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	margin: 0px;
+	padding: 0px;
+	white-space: nowrap;
+        font-weight: bold;
+}
+
+.label img {
+	border: 0px none;
+	vertical-align: middle;
+}
+
+.label a {
+    text-decoration: none; 
+}
+    
+.label a:link {
+    color: navy;
+}
+    
+.label a:visited {
+    color: black;
+}
+
+.label a:hover span {
+	color: red;
+	text-decoration: underline;
+}
+
+.label a:focus span,
+.label a:active span {
+	color: red;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+
+.label a span {
+	margin: 5px;
+	vertical-align: middle;
+}
+
+.children {
+	padding: 0px;
+	margin: 0px;
+}

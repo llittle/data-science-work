@@ -1,0 +1,41 @@
+---
+title: "Project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- What are the columns in the data file? 
+- What do the different 'levels' represent? 
+- what is a multiplier
+ - what does USF mean? 
+ - why does it say record length 143 when there are many more lines than that? 
+ - What does 'generated' mean in the Layout.xlsx file? 
+ - All of the 'Levels' correlate to each other - do we need to match them based on the line or based on the codes? 
+ - which things do we need for the questions you asked?
+ - How do you geographically need to sort the data? 
+ - What is 'filler' in the Layout document? What does this mean? 
+ - What is the 'MLT' text document?
+ 
+ 
+ ## Quesitons from Elliot
+- How much land does a household have (as a function of various socio-economic factors)?
+  - land shown in Schedule 1.2 item 13
+  
+- possible socio-economic factors are
+  - item 6 and 7 - lteracy
+  - item 10 household type 
+  - item 11 religion
+  - item 12 social group
+  - item 13 - should we only consider owned land? 
+  - item 25 - sources of finance
+  - block three is household characteritics
+    
+- How much per capita income does a household have (as a function of these same factors)?
+  
+- How much water do these households use for non-sanitation purposes?
+  - I do not see this question
+  
+- How does that compare to the average water supply capacity of the city/town/village?
