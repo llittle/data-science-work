@@ -16,34 +16,34 @@ read_tsv(file = string, col_names = FALSE)
 
 
 - What are the columns in the data file? 
-- What do the different 'levels' represent? 
+
+The first is a bunch of data codes strung together, then the last three might
+be multipliers but we don't know what those are yet...
+
 - what is a multiplier
- - what does USF mean? 
+
+ - what does USF mean?
+ 
+ This is the the organization - IV unit is the smaller unit.
+ 
  - why does it say record length 143 when there are many more lines than that? 
- - What does 'generated' mean in the Layout.xlsx file? 
  - All of the 'Levels' correlate to each other - do we need to match them based on the line or based on the codes? 
- - which things do we need for the questions you asked?
- - How do you geographically need to sort the data? 
- - What is 'filler' in the Layout document? What does this mean? 
  - What is the 'MLT' text document?
  
  
- ## Quesitons from Elliot
-- How much land does a household have (as a function of various socio-economic factors)?
-  - land shown in Schedule 1.2 item 13
-  
-- possible socio-economic factors are
-  - item 6 and 7 - lteracy
-  - item 10 household type 
-  - item 11 religion
-  - item 12 social group
-  - item 13 - should we only consider owned land? 
-  - item 25 - sources of finance
-  - block three is household characteritics
-    
-- How much per capita income does a household have (as a function of these same factors)?
-  
-- How much water do these households use for non-sanitation purposes?
-  - I do not see this question
-  
-- How does that compare to the average water supply capacity of the city/town/village?
+ ## Questions from Elliot
+ 
+ 'results' are 
+ - land  Schedule 1.2 item 13 block 3
+ - spending spending amount (item 22, block 3)
+ 
+ 'indicators' are
+ - population density
+       - we found a separate dataset for population density of rural vs urban 
+      areas for each district
+      - The rural vs urban distinction appears on item 5 block 1 of the schedule
+      - we will compile those two and assume that the definition of urban and rural
+      is close enough
+ - income source (item 10, block 3)
+ 
+ - we want to filter to only look at certain population densities to 10k-16k people / km^2
