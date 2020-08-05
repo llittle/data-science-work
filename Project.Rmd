@@ -5,7 +5,15 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(tidyverse)
 ```
+
+```{r}
+string <-"/Users/elliott/Downloads/Nss69/Nss69_1.2/Data/R6912L01.TXT"
+read_tsv(file = string, col_names = FALSE)
+```
+
 
 - What are the columns in the data file? 
 - What do the different 'levels' represent? 
