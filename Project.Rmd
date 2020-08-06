@@ -10,8 +10,9 @@ library(tidyverse)
 ```
 
 ```{r}
-string <-"/Users/elliott/Downloads/Nss69/Nss69_1.2/Data/R6912L01.TXT"
-read_tsv(file = string, col_names = FALSE)
+string <-"Nss69/Nss69_1.2/Data/R6912L01.TXT"
+df_NSS_data <- read_tsv(file = string, col_names = "data")
+df_NSS_data
 ```
 
 
