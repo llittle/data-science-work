@@ -152,6 +152,8 @@ with the first two datasets, but need to check how to do that.
 ```{r PopData, include = FALSE}
 df_3 <- read_csv('A-1_NO_OF_VILLAGES_TOWNS_HOUSEHOLDS_POPULATION_AND_AREA.csv', col_names = TRUE,
          skip = 4)
+df_4 <- read_csv('Nss69/Nss69_1.2/Supporting Documents_69_1.2/District Codes_69.csv',
+                 col_names = TRUE, skip = 2)
 ```
 Lets check that the multiplier values are the same for both tabels
 ```{r Tidying}
@@ -172,10 +174,6 @@ Lets combine the two levels into one dataframe
 df_joined <- full_join(lvl1, lvl2, by = 'RowID', keep = TRUE)
 
 ```
-
-```{r}
-df_joined %>%
-   unite(col = 'df_3_Id', c() remove = FALSE,
 
 
 ## Todo
