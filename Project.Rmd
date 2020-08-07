@@ -176,20 +176,6 @@ lvl2 <- imported_data_lvl2 %>%
    )
 ```
 
-```{r}
-#Check to see if the datatypes are the same
-checktype1 <-
-   lvl1 %>% 
-      select(RowID) %>% 
-
-checktype2 <-
-   lvl2 %>% 
-      select(RowID) %>% 
-
-#all_equal(checktype1, checktype2)
-
-```
-
 Next import the population dataset (from a different source). We hope to align this
 with the first two datasets, but need to check how to do that. 
 ```{r PopData, include = FALSE}
@@ -214,6 +200,17 @@ Lets combine the two levels into one dataframe
 ```{r Concat, results = 'hide'}
 
 df_joined <- full_join(lvl1, lvl2, by = 'RowID', keep = TRUE)
+# df_data <-
+#   df_q4 %>%
+#   select(
+#     date,
+#     county,
+#     state,
+#     fips,
+#     cases,
+#     deaths,
+#     population = `Estimate!!Total`
+#   )
 
 ```
 
