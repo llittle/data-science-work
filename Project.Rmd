@@ -148,13 +148,36 @@ lvl2 <- imported_data_lvl2 %>%
 
 
 Next import the population dataset (from a different source). We hope to align this
-with the first two datasets, but need to check how to do that. 
+with the first two datasets, but need to check how to do that. I did manually
+remove all of the * characters from the District Codes 69 file.
 ```{r PopData, include = FALSE}
 df_3 <- read_csv('A-1_NO_OF_VILLAGES_TOWNS_HOUSEHOLDS_POPULATION_AND_AREA.csv', col_names = TRUE,
          skip = 4)
-df_4 <- read_csv('Nss69/Nss69_1.2/Supporting Documents_69_1.2/District Codes_69.csv',
+df_4 <- read_csv('Nss69/Nss69_1.2/Supporting Documents_69_1.2/District Codes_69_stars.csv',
                  col_names = TRUE, skip = 2)
+df_4_mod <-
+   df_4 %>%
+   mutate('Name' = str_extract(`District Name`, pattern = "([^\\*\\()]+)") %>%
+   str_trim())
+
+df_3_mod <- df_3 %>%
+   filter(`India/ State/ Union Territory/ District/ Sub-district` == 'DISTRICT') %>%
+   mutate('District Name' = Name)
+
+df_pop <-
+  left_join(
+    df_3_mod,
+    df_4_mod,
+    by = c("Name" = "District Name")
+  ) %>%
+   filter(`Total/ Rural/ Urban` %in% c('Rural', 'Urban')) %>%
+   mutate(rural_urban = if_else(pull(df_pop, `Total/ Rural/ Urban`) == 'Rural', 1, 2)) %>%
+   unite(c(st,dc,rural_urban), col = 'state_district_sector', remove = FALSE)
+
 ```
+Now we have a population dataset!
+
+
 Lets check that the multiplier values are the same for both tabels
 ```{r Tidying}
 check1 <- lvl1 %>%
@@ -171,19 +194,21 @@ Lets combine the two levels into one dataframe
 
 ```{r Concat, results = 'hide'}
 
-df_joined <- full_join(lvl1, lvl2, by = 'RowID', keep = TRUE)
+df_joined <- left_join(lvl1, lvl2, by = 'RowID', keep = FALSE)
 
 ```
 
 
-## Todo
-- pivot wider to combine everything
-   - make sure thet if the unique column ID matches up, the multiplier also matches up
-   - Should we make the mulitplier part of the unique ID as a way of ensuring that this is the case?
-- Replace the entries in the columns of interest with the actual words of interest so that our results are easier to interpret
-- Find a way to pivot the population dataset into the master dataset
 
- 
+```{r Join_pop}
+
+df_joined <- df_joined %>%
+   unite(c(State, District, Sector), col = 'state_district_sector', remove = FALSE)
+
+df_all <- left_join(df_joined, df_pop, by = 'state_district_sector', keep = FALSE)
+
+```
+
  ## Areas to Explore
  
  'results' are 
