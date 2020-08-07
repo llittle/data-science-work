@@ -145,6 +145,60 @@ lvl2 <- imported_data_lvl2 %>%
                     133,
                     143)) 
 ```
+And then we import level 3
+
+```{r Level3, include = FALSE}
+string <-"Nss69/Nss69_1.2/Data/R6912L03.TXT"
+imported_data_lvl3 <- read_tsv(file = string, col_names = FALSE)
+
+
+lvl3 <- imported_data_lvl3 %>%
+   separate(col = 'X1', into = c('Centre, Round',
+                                 'RowID',
+                                 'Level',
+                                 'Filler',
+                                 'Purchase(Rs)',
+                                 'Home produced stock (Rs.)',
+                                 'Exchange of goods & services (Rs.)',
+                                 'Gifts & loans (Rs.)',
+                                 'Free collection (Rs.)',
+                                 'Total (items 17 to 21) (Rs.)',
+                                 'Whether amount spent on construction/ first-hand purchase of houses/flats for residential purpose',
+                                 'Amount spent during last 365 days (Rs.)',
+                                 'Sources of finance 1',
+                                 'Sources of finance 2',
+                                 'Sources of finance 3' ,
+                                 'Sources of finance 4',
+                                 'Special characters for OK stamp',
+                                 'Blank',
+                                 'SSC',
+                                 'NSS',
+                                 'NSC',
+                                 'MLT'
+                                 ),
+            sep = c(3,
+                    34,
+                    36,
+                    41,
+                    49,
+                    57,
+                    65,
+                    73,
+                    81,
+                    89,
+                    90,
+                    98,
+                    100,
+                    102,
+                    104,
+                    106,
+                    108,
+                    126,
+                    127,
+                    130,
+                    133,
+                    143)) 
+```
 
 Next import the population dataset (from a different source). We hope to align this
 with the first two datasets, but need to check how to do that. 
@@ -168,7 +222,8 @@ Lets combine the two levels into one dataframe
 
 ```{r Concat, results = 'hide'}
 
-df_joined <- full_join(lvl1, lvl2, by = 'RowID', keep = TRUE)
+df_joined <- full_join(lvl1, lvl2, by = 'RowID', keep = FALSE)
+df_joined <- full_join(df_joined, lvl3, by = 'RowID', keep = FALSE)
 # df_data <-
 #   df_q4 %>%
 #   select(
