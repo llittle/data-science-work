@@ -52,7 +52,8 @@ lvl1 <- imported_data_lvl1 %>%
                                     'Schedule Number',
                                     'Sample',
                                     'Sector',
-                                    'State-Region',
+                                    'State',
+                                    'Region',
                                     'District',
                                     'Stratum',
                                     'Sub-Stratum',
@@ -62,20 +63,21 @@ lvl1 <- imported_data_lvl1 %>%
                                     'hg/ sb Number',
                                     'Second Stage Stratum no.',
                                     'Sample household no.'),
-            sep = c(8,
+            sep = c(5,
+                    7,
                     10,
-                    13,
+                    11,
+                    12,
                     14,
                     15,
-                    18,
-                    20,
+                    17,
+                    19,
+                    21,
                     22,
-                    24,
-                    25,
-                    26,
-                    30,
-                    31,
-                    32
+                    23,
+                    27,
+                    28,
+                    29
                     ),
             remove = FALSE
    )
@@ -141,54 +143,9 @@ lvl2 <- imported_data_lvl2 %>%
                     127,
                     130,
                     133,
-                    143)) %>%
-   separate(col = 'RowID', into = c('FSU Serial number',
-                                    'Round',
-                                    'Schedule Number',
-                                    'Sample',
-                                    'Sector',
-                                    'State-Region',
-                                    'District',
-                                    'Stratum',
-                                    'Sub-Stratum',
-                                    'Sub-Round',
-                                    'Sub-Sample',
-                                    'FOD Sub-Region',
-                                    'hg/ sb Number',
-                                    'Second Stage Stratum no.',
-                                    'Sample household no.'),
-            sep = c(8,
-                    10,
-                    13,
-                    14,
-                    15,
-                    18,
-                    20,
-                    22,
-                    24,
-                    25,
-                    26,
-                    30,
-                    31,
-                    32
-                    ),
-            remove = FALSE
-   )
+                    143)) 
 ```
 
-```{r}
-#Check to see if the datatypes are the same
-checktype1 <-
-   lvl1 %>% 
-      select(RowID) %>% 
-
-checktype2 <-
-   lvl2 %>% 
-      select(RowID) %>% 
-
-#all_equal(checktype1, checktype2)
-
-```
 
 Next import the population dataset (from a different source). We hope to align this
 with the first two datasets, but need to check how to do that. 
@@ -210,13 +167,15 @@ Seems ok!
 Lets combine the two levels into one dataframe
 
 
-*Not sure why this is not working and is making all of the y valus Na's*
 ```{r Concat, results = 'hide'}
 
 df_joined <- full_join(lvl1, lvl2, by = 'RowID', keep = TRUE)
 
 ```
 
+```{r}
+df_joined %>%
+   unite(col = 'df_3_Id', c() remove = FALSE,
 
 
 ## Todo
