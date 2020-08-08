@@ -9,7 +9,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(tidyverse)
-library(quantreg)
 ```
 
 First import the first level of the dataset with the correct column names.
@@ -424,15 +423,139 @@ df_all_selected_mlt %>%
    geom_col(mapping = aes(x = `Sources of finance 1`, y = num, fill = Rural_Urban)) +
    facet_grid(Rural_Urban ~ .)
 ```
+This is strange and somewhat alarming because urban areas should have only had the number options of 
+1,2,3, and 9. But herew we see that some number of people in urban areas are listed as having options 5, 7, 8, and 10 
+marked off. 
+```{r}
+df_all_selected %>% 
+   filter(Rural_Urban != 'NA') %>%
+   filter(`Household Expenditure` < 30000) %>%
+   ggplot() +
+   geom_smooth(mapping = aes(y = `land_area`, x = `Household Expenditure`, color = Rural_Urban)) +
+   geom_point(mapping = aes(y = `land_area`, x = `Household Expenditure`, color = Rural_Urban)) +
+   geom_point(data = filter(df_all_selected, `Rural_Urban` != 'NA' & `Household Expenditure` > 30000 & `Household Expenditure` < 1000000),
+              mapping = aes(y = `land_area`, x = `Household Expenditure`, color = Rural_Urban)) + 
+   scale_y_continuous(breaks=c(0.01,0.3, 0.71,1.5, 2.5,3.5,5, 7,10)) +
+   labs( x = "Household Expenditure (Rupees)", y = "Land Possession (hectares)")
+```
+This graph is no good because it uses a mean-type function which as described above
+does not work for this data since the upper values of `10` could be much higher.
 
+Instead a median-type graph should be used.
+
+```{r}
+df_all_selected %>% 
+   filter(Rural_Urban != 'NA') %>%
+   filter(`Household Expenditure` < 50000) %>%
+   mutate(bin = factor(`Household Expenditure`%/%5000*5000)) %>%
+   ggplot(mapping = aes(x = bin, y = `land_area`)) +
+   geom_boxplot() +
+   #geom_smooth(mapping = aes(y = `land_area`, x = `Household Expenditure`, color = Rural_Urban)) +
+   #geom_point(mapping = aes(y = `land_area`, x = `Household Expenditure`, color = Rural_Urban)) +
+   #geom_point(data = filter(df_all_selected, `Rural_Urban` != 'NA' & `Household Expenditure` > 50000 & `Household Expenditure` < 1000000),
+   #           mapping = aes(y = `land_area`, x = `Household Expenditure`, color = Rural_Urban)) + 
+   scale_y_continuous(breaks=c(0.01,0.3, 0.71,1.5, 2.5,3.5,5, 7,10), limits = c(0,0.5)) +
+   facet_wrap( ~ Rural_Urban)
+   #labs( x = "Household Expenditure (Rupees)", y = "Land Possession (hectares)")
+```
+Unfortunately it is hard to tell much from this graph.
+
+```{r}
+df_bin <- df_all_selected %>% 
+   filter(`Household Expenditure` < 25000 & `Rural_Urban` != 'NA') %>%
+   mutate(bin = `Household Expenditure`%/%5000*5000)
+df_bin %>%
+   ggplot() +
+   geom_histogram(mapping = aes(x = `land_area`), breaks = c(0.0025,0.0125,0.115,0.31, 0.71,1.505, 2.505,3.505,5.01,7.01,10)) +
+#   scale_x_log10()+
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))+ 
+   labs(x = "Land Possession (hectares)")
+
+df_bin <- df_all_selected %>% 
+   filter(`Household Expenditure` < 25000 & `Rural_Urban` != 'NA') %>%
+   mutate(bin = `Household Expenditure`%/%5000*5000)
+df_bin %>%
+   ggplot() +
+   geom_histogram(mapping = aes(x = `land_area`), breaks = c(0.0025,0.0125,0.115,0.31, 0.71,1.505, 2.505,3.505,5.01,7.01,10)) +
+   scale_x_log10()+
+   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+   labs(x = "Land Possession (hectares)")
+```
+
+This is a veeery long distribution (and it in already artificially shortened) What would it look like if we put it on a log scale?
+
+
+```{r}
+df_bin <- df_all_selected %>% 
+   filter(`Household Expenditure` < 20000 & `Rural_Urban` != 'NA') %>%
+   mutate(bin = `Household Expenditure`%/%5000*5000)
+df_bin %>%
+   ggplot() +
+   geom_histogram(mapping = aes(x = `land_area`), breaks = c(0.0025,0.0125,0.115,0.31, 0.71,1.505, 2.505,3.505,5.01,7.01,10)) +
+   scale_x_log10()+
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+   facet_grid(.~ bin, labeller= labeller(bin = c('0' ="0-5k", '5000' ="5-10k", '10000'="10-15k", '15000'="15-20k")))+
+      labs(x = "Land Possession (hectares)")
+
+
+df_bin
+```
+```{r}
+df_bin <- df_all_selected %>% 
+   filter(`Household Expenditure` < 20000 & `Rural_Urban` != 'NA') %>%
+   mutate(bin = `Household Expenditure`%/%5000*5000)
+df_bin %>%
+   ggplot() +
+   geom_histogram(mapping = aes(x = `land_area`, fill = Rural_Urban), breaks = c(0.0025,0.0125,0.115,0.31, 0.71,1.505, 2.505,3.505,5.01,7.01,10)) +
+   scale_x_log10()+
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+   facet_grid(Rural_Urban~ bin, labeller= labeller(bin = c('0' ="0-5k", '5000' ="5-10k", '10000'="10-15k", '15000'="15-20k")))+
+      labs(x = "Land Possession (hectares)")
+
+
+df_bin
+```
+How much of the population are we capturing with our cutoff?
+```{r}
+df_all_selected %>%
+   summarize(n = n())
+
+df_all_selected %>%
+   filter(`Household Expenditure` < 20000) %>%
+   summarize(n=n())
+```
 
 ```{r}
 df_all_selected %>% 
    filter(Rural_Urban != 'NA') %>%
    filter(`Household Expenditure` < 1000000) %>%
-   ggplot(aes(x = `land_area`, y = `Household Expenditure`, color = Rural_Urban)) +
-   geom_smooth() + 
-   scale_x_continuous(breaks=c())
+   ggplot() +
+   geom_histogram(mapping = aes(x = `Household Expenditure`, fill = Rural_Urban), binwidth = 5000) +
+   scale_x_continuous(breaks=c(0,10000,20000,30000,40000,50000,100000))+
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+   facet_grid(Rural_Urban ~.)+ 
+   labs( x = "Household Expenditure (Rupees)")
+
+
+#do this numerically
+df_all_selected %>%
+   group_by(Rural_Urban) %>%
+   filter(Rural_Urban=='Rural' | Rural_Urban == 'Urban')%>%
+   summarize(num = n())
+
+df_all_selected %>%
+   filter(`Household Expenditure` < 20000) %>%
+   group_by(Rural_Urban) %>%
+   filter(Rural_Urban=='Rural' | Rural_Urban == 'Urban')%>%
+   summarize(num = n()/c(15427,5012))
+```
+```{r}
+df_all_selected %>% 
+   filter(Rural_Urban != 'NA') %>%
+   ggplot() +
+   geom_histogram(mapping = aes(x = `Population per sq. km.`, fill = Rural_Urban)) +
+   facet_grid(Rural_Urban ~.)
+   labs( x = "Household Expenditure (Rupees)")
 ```
 
 ```{r}
