@@ -371,9 +371,37 @@ df_all_selected <-
 
 ```{r}
 df_all_selected %>% 
+   filter(Rural_Urban != 'NA') %>%
    ggplot() +
-   geom_point(mapping = aes(x = `Population per sq. km.`, y = `land_area`))+
-   geom_smooth(mapping = aes(x = `Population per sq. km.`, y = `land_area`))
+   geom_point(
+      mapping = aes(
+         x = `Population per sq. km.`,
+         y = `land_area`,
+         color = `Rural_Urban`)
+      ) +
+   geom_smooth(
+      mapping = aes(
+         x = `Population per sq. km.`,
+         y = `land_area`
+         )
+      )
+   #facet_grid(. ~ Rural_Urban)
+
+df_all_selected %>% 
+   filter(Rural_Urban != 'NA') %>%
+   ggplot() +
+   geom_point(
+      mapping = aes(
+         x = `Population per sq. km.`,
+         y = `Household Expenditure`,
+         color = `Rural_Urban`)
+      ) +
+   geom_smooth(
+      mapping = aes(
+         x = `Population per sq. km.`,
+         y = `Household Expenditure`
+         )
+      )
 ```
 
 ```{r}
@@ -396,6 +424,7 @@ df_all_selected_mlt %>%
    geom_col(mapping = aes(x = `Sources of finance 1`, y = num, fill = Rural_Urban)) +
    facet_grid(Rural_Urban ~ .)
 ```
+
 
 ```{r}
 df_all_selected %>% 
