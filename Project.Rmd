@@ -322,6 +322,7 @@ df_all <- bind_rows(df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_10, df_11
 df_all_selected <-
   df_all %>%
   select(
+    `RowID`,
     `state_district_sector`,
     `MLT`,
     `land_area`,
@@ -342,7 +343,11 @@ df_all_selected <-
   ) %>%
    mutate(MLT = as.numeric(MLT))
 
-#Substitute codes for real data values
+df_all_selected <-
+   df_all_selected %>% 
+      group_by(RowID) %>% 
+      slice(rep(1:n(), each = floor(`MLT`/1000000)))
+
 ```
 
  ## Areas to Explore
@@ -361,6 +366,13 @@ df_all_selected <-
  - primary income source (item 10, block 3)
  
  - we want to filter to only look at certain population densities to 10k-16k people / km^2
+
+```{r}
+df_all_selected %>% 
+   ggplot() +
+   geom_boxplot(mapping = aes(x = `Population per sq. km.`, y = `land_area`, group = c()))
+```
+
 
 ```{r}
 df_land <- df_all_selected %>%
