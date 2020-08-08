@@ -268,20 +268,51 @@ df_all <- left_join(df_joined, df_pop, by = 'state_district_sector', keep = FALS
  
 ```{r Convert Land Columns}
 
-df_all <- df_all %>%
-   mutate(land_area = `Land possessed`) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 01, 0.0025, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 02, 0.0125, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 03, 0.115, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 04, 0.31, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 05, 0.71, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 06, 1.505, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 07, 2.505, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 08, 3.505, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 10, 5.01, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 11, 7.01, 2)) %>%
-   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 12, 10, 2))
-   
+df_1 <- df_all %>%
+   filter(`Land possessed` == '01') %>%
+   mutate(land_area = 0.0125)
+
+df_2 <- df_all %>%
+   filter(`Land possessed` == '02') %>%
+   mutate(land_area = 0.115)
+
+df_3 <- df_all %>%
+   filter(`Land possessed` == '03') %>%
+   mutate(land_area = 0.31)
+
+df_4 <- df_all %>%
+   filter(`Land possessed` == '04') %>%
+   mutate(land_area = 0.71)
+
+df_5 <- df_all %>%
+   filter(`Land possessed` == '05') %>%
+   mutate(land_area = 1.505)
+
+df_6 <- df_all %>%
+   filter(`Land possessed` == '06') %>%
+   mutate(land_area = 2.505)
+
+df_7 <- df_all %>%
+   filter(`Land possessed` == '07') %>%
+   mutate(land_area = 3.505)
+
+df_8 <- df_all %>%
+   filter(`Land possessed` == '08') %>%
+   mutate(land_area = 0.0125)
+
+df_10 <- df_all %>%
+   filter(`Land possessed` == '10') %>%
+   mutate(land_area = 5.01)
+
+df_11 <- df_all %>%
+   filter(`Land possessed` == '11') %>%
+   mutate(land_area = 7.01)
+
+df_12 <- df_all %>%
+   filter(`Land possessed` == '12') %>%
+   mutate(land_area = 10)
+
+df_all <- bind_rows(df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_10, df_11, df_12)
 ```
 
 
@@ -294,6 +325,7 @@ df_all_selected <-
     `state_district_sector`,
     `MLT`,
     `land_area`,
+    `Land possessed`,
     `Household Expenditure` = `Total (items 17 to 21) (Rs.)`,
     `Sources of finance 1`,
     `Sources of finance 2`,
@@ -307,13 +339,11 @@ df_all_selected <-
     `Population per sq. km.`,
     `District Name`,
     `State Name`
-  )
+  ) %>%
+   mutate(MLT = as.numeric(MLT))
 
 #Substitute codes for real data values
-
 ```
-
-
 
  ## Areas to Explore
  
@@ -331,14 +361,22 @@ df_all_selected <-
  - primary income source (item 10, block 3)
  
  - we want to filter to only look at certain population densities to 10k-16k people / km^2
- 
- 
-```{r Geom Col plots}
 
-df_all %>%
+```{r}
+df_land <- df_all_selected %>%
+   filter(`Land possessed`>0) %>%
+   group_by(`Land possessed`, `Rural_Urban`) %>%
+   summarise(sum = sum(`MLT`))
+
+df_land %>%
    ggplot() + 
-   geom_col(mapping = aes(x = ))
-
+   geom_col(mapping = aes(x = `Land possessed`, y = sum, fill = Rural_Urban))
 ```
- 
- 
+```{r}
+df_land <- df_all_selected %>%
+   group_by(land_area, Population) %>%
+   summarize(sum = sum(MLT))
+
+df_land
+```
+
