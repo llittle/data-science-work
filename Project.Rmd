@@ -278,7 +278,7 @@ df_all_selected <-
     `Name`,
     `Rural_Urban` = `Total/ Rural/ Urban`,
     `Number of households`,
-    `Population Persons`,
+    `Population` = `Population Persons`,
     `Area` = `Area  (In sq. km)`,
     `Population per sq. km.`,
     `District Name`,
