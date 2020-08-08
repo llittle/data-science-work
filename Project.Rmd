@@ -319,7 +319,7 @@ df_all <- bind_rows(df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_10, df_11
 ```{r Select}
 
 #Pair down the frame to something more manageable
-df_all_selected <-
+df_all_selected_mlt <-
   df_all %>%
   select(
     `RowID`,
@@ -344,7 +344,7 @@ df_all_selected <-
    mutate(MLT = as.numeric(MLT))
 
 df_all_selected <-
-   df_all_selected %>% 
+   df_all_selected_mlt %>% 
       group_by(RowID) %>% 
       slice(rep(1:n(), each = floor(`MLT`/1000000)))
 
@@ -375,7 +375,7 @@ df_all_selected %>%
 
 
 ```{r}
-df_land <- df_all_selected %>%
+df_land <- df_all_selected_mlt %>%
    group_by(`land_area`, `Rural_Urban`) %>%
    filter(Rural_Urban != 'NA') %>%
    summarise(sum = sum(`MLT`)) 
@@ -390,7 +390,7 @@ df_land %>%
    scale_x_log10()
 ```
 ```{r}
-df_land <- df_all_selected %>%
+df_land <- df_all_selected_mlt %>%
    group_by(`Land possessed`, `Rural_Urban`) %>%
    filter(Rural_Urban != 'NA') %>%
    summarise(sum = sum(`MLT`))
@@ -400,7 +400,7 @@ df_land %>%
    geom_col(mapping = aes(x = `Land possessed`, y = sum, fill = Rural_Urban), position = 'dodge')
 ```
 ```{r}
-df_land <- df_all_selected %>%
+df_land <- df_all_selected_mlt %>%
    group_by(`land_area`, `Population per sq. km.`, `Rural_Urban`) %>%
    filter(Rural_Urban == 'Rural' | Rural_Urban == "Urban") %>%
    summarise(sum = sum(`MLT`)) 
@@ -413,7 +413,7 @@ df_land %>%
 ```
 
 ```{r}
-df_land_income <-df_all_selected %>%
+df_land_income <-df_all_selected_mlt %>%
    filter(`Sources of finance 1` == '01' |
              `Sources of finance 1` == '02'|
              `Sources of finance 1` == '03'|
@@ -437,7 +437,7 @@ df_land_income %>%
 df_land_income
 ```
 ```{r}
-df_land_income <-df_all_selected %>%
+df_land_income <-df_all_selected_mlt %>%
    filter(`Sources of finance 1` == '01' |
              `Sources of finance 1` == '02'|
              `Sources of finance 1` == '03'|
@@ -461,7 +461,7 @@ df_land_income %>%
 df_land_income
 ```
 ```{r}
-df_land_expend <-df_all_selected %>%
+df_land_expend <-df_all_selected_mlt %>%
    group_by(`Household Expenditure`, `Land possessed`, Rural_Urban) %>%
    filter(Rural_Urban == 'Rural' | Rural_Urban == "Urban") %>%
    summarise(sum_mlt = sum(`MLT`)) 
