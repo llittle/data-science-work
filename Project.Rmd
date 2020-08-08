@@ -223,7 +223,9 @@ df_pop <-
     df_4_mod,
     by = c("Name" = "District Name")
   ) %>%
-   filter(`Total/ Rural/ Urban` %in% c('Rural', 'Urban')) %>%
+   filter(`Total/ Rural/ Urban` %in% c('Rural', 'Urban'))
+
+df_pop <- df_pop %>%
    mutate(rural_urban = if_else(pull(df_pop, `Total/ Rural/ Urban`) == 'Rural', 1, 2)) %>%
    unite(c(st,dc,rural_urban), col = 'state_district_sector', remove = FALSE)
 
@@ -289,3 +291,31 @@ df_all <- left_join(df_joined, df_pop, by = 'state_district_sector', keep = FALS
  - income source (item 10, block 3)
  
  - we want to filter to only look at certain population densities to 10k-16k people / km^2
+ 
+ Lets covert the land column from an input code to a real numerical value.
+ The input is in ranges, so we are taking the average of the range to repesent 
+ that value. This is because we want to be able to treat land area as a numeric 
+ variable. Note that the last range is 'greater that 8.01 hectares', which we
+ will represent numerically as 10 hectares. This will mess up any non-robust 
+ measurements such as a mean, since the real value may be much more than 10. 
+ 
+```{r Convert Land Columns}
+
+df_all %>%
+   mutate(land_area = `Land possessed`) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 01, 0.0025, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 02, 0.0125, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 03, 0.115, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 04, 0.31, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 05, 0.71, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 06, 1.505, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 07, 2.505, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 08, 3.505, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 10, 5.01, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 11, 7.01, 2)) %>%
+   mutate(land_area = if_else(pull(df_all, `Land possessed`) == 12, 10, 2))
+   
+
+```
+ 
+ 
