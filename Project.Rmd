@@ -9,6 +9,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(tidyverse)
+library(quantreg)
 ```
 
 First import the first level of the dataset with the correct column names.
@@ -270,35 +271,35 @@ df_all <- left_join(df_joined, df_pop, by = 'state_district_sector', keep = FALS
 
 df_1 <- df_all %>%
    filter(`Land possessed` == '01') %>%
-   mutate(land_area = 0.0125)
+   mutate(land_area = 0.0025)
 
 df_2 <- df_all %>%
    filter(`Land possessed` == '02') %>%
-   mutate(land_area = 0.115)
+   mutate(land_area = 0.0125)
 
 df_3 <- df_all %>%
    filter(`Land possessed` == '03') %>%
-   mutate(land_area = 0.31)
+   mutate(land_area = 0.115)
 
 df_4 <- df_all %>%
    filter(`Land possessed` == '04') %>%
-   mutate(land_area = 0.71)
+   mutate(land_area = 0.31)
 
 df_5 <- df_all %>%
    filter(`Land possessed` == '05') %>%
-   mutate(land_area = 1.505)
+   mutate(land_area = 0.71)
 
 df_6 <- df_all %>%
    filter(`Land possessed` == '06') %>%
-   mutate(land_area = 2.505)
+   mutate(land_area = 1.505)
 
 df_7 <- df_all %>%
    filter(`Land possessed` == '07') %>%
-   mutate(land_area = 3.505)
+   mutate(land_area = 2.505)
 
 df_8 <- df_all %>%
    filter(`Land possessed` == '08') %>%
-   mutate(land_area = 0.0125)
+   mutate(land_area = 3.505)
 
 df_10 <- df_all %>%
    filter(`Land possessed` == '10') %>%
@@ -341,7 +342,8 @@ df_all_selected_mlt <-
     `District Name`,
     `State Name`
   ) %>%
-   mutate(MLT = as.numeric(MLT))
+   mutate(MLT = as.numeric(MLT)) %>%
+   mutate(`Household Expenditure` = as.numeric(`Household Expenditure`))
 
 df_all_selected <-
    df_all_selected_mlt %>% 
@@ -370,9 +372,39 @@ df_all_selected <-
 ```{r}
 df_all_selected %>% 
    ggplot() +
-   geom_boxplot(mapping = aes(x = `Population per sq. km.`, y = `land_area`, group = c()))
+   geom_point(mapping = aes(x = `Population per sq. km.`, y = `land_area`))+
+   geom_smooth(mapping = aes(x = `Population per sq. km.`, y = `land_area`))
 ```
 
+```{r}
+df_all_selected_mlt %>%
+   group_by(`Sources of finance 1`, Rural_Urban) %>%
+   filter(Rural_Urban=='Rural' | Rural_Urban == 'Urban')%>%
+   filter(`Sources of finance 1` == '01' |
+          `Sources of finance 1` == '02'|
+          `Sources of finance 1` == '03'|
+          `Sources of finance 1` == '04'|
+          `Sources of finance 1` == '05'|
+          `Sources of finance 1` == '06'|
+          `Sources of finance 1` == '07'|
+          `Sources of finance 1` == '08'|
+          `Sources of finance 1` == '09'|
+          `Sources of finance 1` == '10'
+          ) %>%
+   summarize(num = sum(MLT))%>%
+   ggplot() + 
+   geom_col(mapping = aes(x = `Sources of finance 1`, y = num, fill = Rural_Urban)) +
+   facet_grid(Rural_Urban ~ .)
+```
+
+```{r}
+df_all_selected %>% 
+   filter(Rural_Urban != 'NA') %>%
+   filter(`Household Expenditure` < 1000000) %>%
+   ggplot(aes(x = `land_area`, y = `Household Expenditure`, color = Rural_Urban)) +
+   geom_smooth() + 
+   scale_x_continuous(breaks=c())
+```
 
 ```{r}
 df_land <- df_all_selected_mlt %>%
