@@ -319,7 +319,7 @@ df_all <- bind_rows(df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_10, df_11
 ```{r Select}
 
 #Pair down the frame to something more manageable
-df_all_selected <-
+df_all_selected_MLT <-
   df_all %>%
   select(
     `RowID`,
@@ -344,7 +344,7 @@ df_all_selected <-
    mutate(MLT = as.numeric(MLT))
 
 df_all_selected <-
-   df_all_selected %>% 
+   df_all_selected_MLT %>% 
       group_by(RowID) %>% 
       slice(rep(1:n(), each = floor(`MLT`/1000000)))
 
@@ -369,8 +369,37 @@ df_all_selected <-
 
 ```{r}
 df_all_selected %>% 
+   filter(Rural_Urban != 'NA') %>%
    ggplot() +
-   geom_boxplot(mapping = aes(x = `Population per sq. km.`, y = `land_area`, group = c()))
+   geom_point(
+      mapping = aes(
+         x = `Population per sq. km.`,
+         y = `land_area`,
+         color = `Rural_Urban`)
+      ) +
+   geom_smooth(
+      mapping = aes(
+         x = `Population per sq. km.`,
+         y = `land_area`
+         )
+      )
+   #facet_grid(. ~ Rural_Urban)
+
+df_all_selected %>% 
+   filter(Rural_Urban != 'NA') %>%
+   ggplot() +
+   geom_point(
+      mapping = aes(
+         x = `Population per sq. km.`,
+         y = `Household Expenditure`,
+         color = `Rural_Urban`)
+      ) +
+   geom_smooth(
+      mapping = aes(
+         x = `Population per sq. km.`,
+         y = `Household Expenditure`
+         )
+      )
 ```
 
 
