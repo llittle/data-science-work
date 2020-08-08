@@ -225,7 +225,7 @@ df_pop <-
   ) %>%
    filter(`Total/ Rural/ Urban` %in% c('Rural', 'Urban'))
 
-df_pop <- df_pop %>%
+df_pop <- df_pop %>% 
    mutate(rural_urban = if_else(pull(df_pop, `Total/ Rural/ Urban`) == 'Rural', 1, 2)) %>%
    unite(c(st,dc,rural_urban), col = 'state_district_sector', remove = FALSE)
 
@@ -251,17 +251,7 @@ Lets combine the two levels into one dataframe
 
 df_joined <- full_join(lvl1, lvl2, by = 'RowID', keep = FALSE)
 df_joined <- full_join(df_joined, lvl3, by = 'RowID', keep = FALSE)
-# df_data <-
-#   df_q4 %>%
-#   select(
-#     date,
-#     county,
-#     state,
-#     fips,
-#     cases,
-#     deaths,
-#     population = `Estimate!!Total`
-#   )
+
 ```
 
 
@@ -273,13 +263,39 @@ df_joined <- df_joined %>%
 
 df_all <- left_join(df_joined, df_pop, by = 'state_district_sector', keep = FALSE)
 
+#Pair down the frame to something more manageable
+df_all_selected <-
+  df_all %>%
+  select(
+    `state_district_sector`,
+    `MLT`,
+    `Land possessed`,
+    `Household Expenditure` = `Total (items 17 to 21) (Rs.)`,
+    `Sources of finance 1`,
+    `Sources of finance 2`,
+    `Sources of finance 3`,
+    `Sources of finance 4`,
+    `Name`,
+    `Rural_Urban` = `Total/ Rural/ Urban`,
+    `Number of households`,
+    `Population Persons`,
+    `Area` = `Area  (In sq. km)`,
+    `Population per sq. km.`,
+    `District Name`,
+    `State Name`
+  )
+
+#Substitute codes for real data values
+
 ```
+
+
 
  ## Areas to Explore
  
  'results' are 
  - land  Schedule 1.2 item 13 block 3
- - spending spending amount (item 22, block 3)
+ - spending amount (item 22, block 3)
  
  'indicators' are
  - population density
@@ -288,7 +304,7 @@ df_all <- left_join(df_joined, df_pop, by = 'state_district_sector', keep = FALS
       - The rural vs urban distinction appears on item 5 block 1 of the schedule
       - we will compile those two and assume that the definition of urban and rural
       is close enough
- - income source (item 10, block 3)
+ - primary income source (item 10, block 3)
  
  - we want to filter to only look at certain population densities to 10k-16k people / km^2
  
