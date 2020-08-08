@@ -252,6 +252,12 @@ Lets combine the two levels into one dataframe
 df_joined <- full_join(lvl1, lvl2, by = 'RowID', keep = FALSE)
 df_joined <- full_join(df_joined, lvl3, by = 'RowID', keep = FALSE)
 
+df_joined <- df_joined %>%
+   unite(c(State, District, Sector), col = 'state_district_sector', remove = FALSE)
+
+df_all <- left_join(df_joined, df_pop, by = 'state_district_sector', keep = FALSE)
+
+
 ```
  Lets covert the land column from an input code to a real numerical value.
  The input is in ranges, so we are taking the average of the range to repesent 
@@ -262,7 +268,7 @@ df_joined <- full_join(df_joined, lvl3, by = 'RowID', keep = FALSE)
  
 ```{r Convert Land Columns}
 
-df_all %>%
+df_all <- df_all %>%
    mutate(land_area = `Land possessed`) %>%
    mutate(land_area = if_else(pull(df_all, `Land possessed`) == 01, 0.0025, 2)) %>%
    mutate(land_area = if_else(pull(df_all, `Land possessed`) == 02, 0.0125, 2)) %>%
@@ -279,12 +285,7 @@ df_all %>%
 ```
 
 
-```{r Join_pop}
-
-df_joined <- df_joined %>%
-   unite(c(State, District, Sector), col = 'state_district_sector', remove = FALSE)
-
-df_all <- left_join(df_joined, df_pop, by = 'state_district_sector', keep = FALSE)
+```{r Select}
 
 #Pair down the frame to something more manageable
 df_all_selected <-
@@ -331,5 +332,13 @@ df_all_selected <-
  
  - we want to filter to only look at certain population densities to 10k-16k people / km^2
  
+ 
+```{r Geom Col plots}
 
+df_all %>%
+   ggplot() + 
+   geom_col(mapping = aes(x = ))
+
+```
+ 
  
