@@ -364,19 +364,36 @@ df_all_selected <-
 
 ```{r}
 df_land <- df_all_selected %>%
-   filter(`Land possessed`>0) %>%
-   group_by(`Land possessed`, `Rural_Urban`) %>%
-   summarise(sum = sum(`MLT`))
+   group_by(`land_area`, `Rural_Urban`) %>%
+   filter(Rural_Urban != 'NA') %>%
+   summarise(sum = sum(`MLT`)) 
 
-df_land %>%
+df_land %>% 
    ggplot() + 
-   geom_col(mapping = aes(x = `Land possessed`, y = sum, fill = Rural_Urban))
+   geom_col(mapping = aes(x = `land_area`, y = sum, fill = Rural_Urban), position = 'dodge') 
+   
+df_land %>% 
+   ggplot() + 
+   geom_col(mapping = aes(x = `land_area`, y = sum, fill = Rural_Urban), position = 'dodge') + 
+   scale_x_log10()
 ```
 ```{r}
 df_land <- df_all_selected %>%
-   group_by(land_area, Population) %>%
-   summarize(sum = sum(MLT))
+   group_by(`Land possessed`, `Rural_Urban`) %>%
+   filter(Rural_Urban != 'NA') %>%
+   summarise(sum = sum(`MLT`))
 
-df_land
+df_land %>% 
+   ggplot() + 
+   geom_col(mapping = aes(x = `Land possessed`, y = sum, fill = Rural_Urban), position = 'dodge')
+```
+```{r}
+df_land <- df_all_selected %>%
+   group_by(`Land possessed`, Population) %>%
+   summarise(sum = sum(`MLT`)) 
+
+df_land %>%
+   ggplot(aes(`Land possessed`, Population))+
+   geom_tile(aes(fill=sum))
 ```
 
