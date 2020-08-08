@@ -9,7 +9,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(tidyverse)
-library(quantreg)
 ```
 
 First import the first level of the dataset with the correct column names.
@@ -384,10 +383,13 @@ df_all_selected %>%
          x = `Population per sq. km.`,
          y = `land_area`
          )
-      )
+      ) +
+   scale_y_log10()
    #facet_grid(. ~ Rural_Urban)
 
-df_all_selected %>% 
+#Household expenditure
+df_all_selected %>%
+   filter(`Household Expenditure` < 1000000) %>% 
    filter(Rural_Urban != 'NA') %>%
    ggplot() +
    geom_point(
@@ -401,7 +403,8 @@ df_all_selected %>%
          x = `Population per sq. km.`,
          y = `Household Expenditure`
          )
-      )
+      ) +
+   scale_y_log10()
 ```
 
 ```{r}
